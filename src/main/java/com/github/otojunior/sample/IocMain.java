@@ -16,8 +16,9 @@ public class IocMain {
 	/**
 	 * Main method.
 	 * @param args Command line arguments.
+	 * @throws IllegalAccessException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IllegalAccessException {
 		var t1 = System.nanoTime();
 
 		Ioc.getInstance()

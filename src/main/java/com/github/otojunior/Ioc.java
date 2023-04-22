@@ -1,5 +1,6 @@
 package com.github.otojunior;
 
+import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -47,15 +48,19 @@ public class Ioc {
 	/**
 	 * Initialize the IoC
 	 */
-	public void init() {
+	public void init() throws IllegalAccessException {
 		for (Object component : components.values()) {
-			for (Class<?> c = component.getClass();
-					c != Object.class;
-					c = c.getSuperclass()) {
-				for (Class<?> i : c.getInterfaces()) {
-					if (i.equals(Injectable.class)) {
-						((Injectable)component).injects(this);
+			for (Field field : component.getClass().getDeclaredFields()) {
+				if (field.isAnnotationPresent(Inject.class)) {
+					Object dependency = components.get(field.getType());
+					if (dependency == null) {
+						var msg = "Unsatisfied dependency: " + field
+							.getType()
+							.getName();
+						throw new IllegalStateException(msg);
 					}
+					field.setAccessible(true);
+					field.set(component, dependency);
 				}
 			}
 		}

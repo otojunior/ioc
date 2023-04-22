@@ -3,8 +3,7 @@
  */
 package com.github.otojunior.sample;
 
-import com.github.otojunior.Injectable;
-import com.github.otojunior.Ioc;
+import com.github.otojunior.Inject;
 
 /**
  * Sample Service.
@@ -12,7 +11,8 @@ import com.github.otojunior.Ioc;
  * @since 22/04/2023
  *
  */
-public class SampleController implements Injectable {
+public class SampleController {
+	@Inject
 	private SampleService service;
 
 	/**
@@ -20,13 +20,5 @@ public class SampleController implements Injectable {
 	 */
 	public void doSomething() {
 		service.doSomething();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void injects(Ioc ioc) {
-		this.service = ioc.get(SampleService.class);
 	}
 }
