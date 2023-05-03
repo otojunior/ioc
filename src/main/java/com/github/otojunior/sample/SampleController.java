@@ -3,8 +3,10 @@
  */
 package com.github.otojunior.sample;
 
-import com.github.otojunior.Injectable;
-import com.github.otojunior.Ioc;
+import javax.enterprise.context.ApplicationScoped;
+import javax.inject.Inject;
+
+import org.tinylog.Logger;
 
 /**
  * Sample Service.
@@ -12,21 +14,16 @@ import com.github.otojunior.Ioc;
  * @since 22/04/2023
  *
  */
-public class SampleController implements Injectable {
+@ApplicationScoped
+public class SampleController {
+	@Inject
 	private SampleService service;
 
 	/**
 	 * Sample method to exemplificate call.
 	 */
-	public void doSomething() {
-		service.doSomething();
-	}
-
-	/**
-	 * {@inheritDoc}
-	 */
-	@Override
-	public void injects(Ioc ioc) {
-		this.service = ioc.get(SampleService.class);
+	public void call() {
+		Logger.info("Controller call");
+		service.call();
 	}
 }
